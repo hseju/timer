@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Timer Example</title>
+
+    <style>
+        body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    /* styles for timer container, buttons and input boxes */
+    #timer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      height: 50%;
+      border: 1px solid black;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    button {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    input {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      text-align: center;
+    }
+    
+    button {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    
+      </style>
+      
+    <script>
+      var timerInterval;
+
+      function startTimer() {
+        var targetValue = document.getElementById("target-value").value;
+        var actualValue = document.getElementById("actual-value").value;
+        var startTime = new Date().getTime();
+        var endTime = new Date();
+        endTime.setHours(endTime.getHours() + 8); // set the end time to 8 hours from now
+        timerInterval = setInterval(function() {
+          var now = new Date().getTime();
+          var distance = endTime - now;
+          if (distance < 0) {
+            clearInterval(timerInterval);
+            document.getElementById('timer').innerHTML = "EXPIRED";
+          } else {
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            hours = checkTime(hours);
+            minutes = checkTime(minutes);
+            seconds = checkTime(seconds);
+            document.getElementById('timer').innerHTML = hours + ":" + minutes + ":" + seconds;
+          }
+        }, 1000);
+        document.getElementById("start-button").disabled = true;
+        document.getElementById("target-value").disabled = true;
+        document.getElementById("actual-value").disabled = true;
+      }
+
+      function resetTimer() {
+        clearInterval(timerInterval);
+        document.getElementById('timer').innerHTML = "00:00:00";
+        document.getElementById("start-button").disabled = false;
+        document.getElementById("target-value").disabled = false;
+        document.getElementById("actual-value").disabled = false;
+        document.getElementById("target-value").value = "";
+        document.getElementById("actual-value").value = "";
+      }
+
+      function checkTime(i) {
+        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        return i;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Countdown Timer</h1>
+    <p>The timer will run from 8:00:00 to 0:00:00.</p>
+    <br>
+
+    <div id="input-container">
+        <label for="target-value">Insert target value:</label>
+        <input type="number" id="target-value">
+        <label for="actual-value">Insert actual value:</label>
+        <input type="number" id="actual-value">
+      </div>
+    <br>
+
+    <p id="timer">00:00:00</p>
+    <div id="input-container">
+        <button id="start-button" onclick="startTimer()">Start</button>
+        <button id="reset-button" onclick="resetTimer()">Reset</button>
+    </div>
+    
+
+    
+  </body>
+</html>
